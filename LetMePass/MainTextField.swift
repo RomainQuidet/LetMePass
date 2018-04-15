@@ -29,8 +29,12 @@ class MainTextField: UITextField {
 		case .website:
 			leftImageView.image = #imageLiteral(resourceName: "world")
 			self.placeholder = "Website"
-		default:
-			debugPrint("to remove")
+		case .login:
+			leftImageView.image = #imageLiteral(resourceName: "login")
+			self.placeholder = "Login"
+		case .masterPassword:
+			leftImageView.image = #imageLiteral(resourceName: "masterPassword")
+			self.placeholder = "Mot de passe fort"
 		}
 		self.leftView = leftImageView
 		self.leftViewMode = .always
