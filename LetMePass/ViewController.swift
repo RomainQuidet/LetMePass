@@ -7,9 +7,8 @@
 //
 
 import UIKit
-import LessPassCore
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
 
 	private let siteTextField = MainTextField(type: .website)
 	private let loginTextField = MainTextField(type: .login)
@@ -45,16 +44,56 @@ class ViewController: UIViewController {
 	func didTapProfileSettingsButton() {
 		
 	}
+	
+	// MARK: - UITextFieldDelegate
+	
+	func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+		return true
+	}
+	
+	func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+		return true
+	}
+	
+	func textFieldDidEndEditing(_ textField: UITextField) {
+		debugPrint("did end editing")
+	}
+	
+	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+		if textField == self.siteTextField {
+			if self.loginTextField.text?.isEmpty == true {
+				self.loginTextField.becomeFirstResponder()
+				return true
+			}
+		}
+		else if textField == self.loginTextField {
+			if self.masterPasswordTextField.text?.isEmpty == true {
+				self.masterPasswordTextField.becomeFirstResponder()
+				return true
+			}
+		}
+		else if textField == self.masterPasswordTextField {
+			if self.masterPasswordTextField.text?.isEmpty == false {
+				self.didTapGenerateButton()
+			}
+		}
+		
+		textField.resignFirstResponder()
+		return true
+	}
 
 	// MARK: - Private
 	
 	private func createUI() {
 		self.title = "LetMePass"
 		
+		siteTextField.delegate = self
 		siteTextField.translatesAutoresizingMaskIntoConstraints = false
 		self.view.addSubview(siteTextField)
+		loginTextField.delegate = self
 		loginTextField.translatesAutoresizingMaskIntoConstraints = false
 		self.view.addSubview(loginTextField)
+		masterPasswordTextField.delegate = self
 		masterPasswordTextField.translatesAutoresizingMaskIntoConstraints = false
 		self.view.addSubview(masterPasswordTextField)
 		
@@ -62,11 +101,13 @@ class ViewController: UIViewController {
 		generateButton.setTitle("Générer", for: .normal)
 		generateButton.setTitleColor(.white, for: .normal)
 		generateButton.backgroundColor = .blue
+		generateButton.addTarget(self, action: #selector(didTapGenerateButton), for: .touchUpInside)
 		self.view.addSubview(generateButton)
 		
 		profileSettingsButton.translatesAutoresizingMaskIntoConstraints = false
 		profileSettingsButton.setImage(#imageLiteral(resourceName: "profileSettings"), for: .normal)
 		profileSettingsButton.backgroundColor = .lightGray
+		profileSettingsButton.addTarget(self, action: #selector(didTapProfileSettingsButton), for: .touchUpInside)
 		self.view.addSubview(profileSettingsButton)
 	}
 

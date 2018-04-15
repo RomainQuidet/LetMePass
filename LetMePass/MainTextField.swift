@@ -29,16 +29,23 @@ class MainTextField: UITextField {
 		case .website:
 			leftImageView.image = #imageLiteral(resourceName: "world")
 			self.placeholder = "Website"
+			self.keyboardType = .URL
 		case .login:
 			leftImageView.image = #imageLiteral(resourceName: "login")
 			self.placeholder = "Login"
+			self.keyboardType = .emailAddress
 		case .masterPassword:
 			leftImageView.image = #imageLiteral(resourceName: "masterPassword")
 			self.placeholder = "Mot de passe fort"
+			self.keyboardType = .default
+			self.isSecureTextEntry = true
 		}
 		self.leftView = leftImageView
 		self.leftViewMode = .always
-
+		
+		self.autocorrectionType = .no
+		self.autocapitalizationType = .none
+		self.spellCheckingType = .no
 	}
 
 	convenience init(type: MainTextFieldType) {
