@@ -29,7 +29,8 @@ class MainViewModel: MainModelDelegate {
 	weak var delegate: MainViewModelDelegate?
 	
 	private let model = MainModel()
-	private var cleanBlock: BlockOperation?
+	private var cleanMasterOnlyBlock: DispatchWorkItem?
+	private var cleanGeneratedBlock: DispatchWorkItem?
 
 	// MARK: - Lifecycle
 	
@@ -39,6 +40,24 @@ class MainViewModel: MainModelDelegate {
 	
 	// MARK: - Public
 	
+	var websitePlaceHolder: String {
+		get {
+			return "Website".localized()
+		}
+	}
+	
+	var loginPlaceHolder: String {
+		get {
+			return "Login".localized()
+		}
+	}
+	
+	var masterPasswordPlaceHolder: String {
+		get {
+			return "Master password".localized()
+		}
+	}
+	
 	var website: String? {
 		get {
 			return self.model.website
@@ -46,10 +65,6 @@ class MainViewModel: MainModelDelegate {
 		
 		set {
 			self.model.website = newValue
-			if newValue == nil
-				|| newValue?.isEmpty == true {
-				self.delegate?.showError(error: .emptyWebsite)
-			}
 		}
 	}
 	
@@ -60,10 +75,6 @@ class MainViewModel: MainModelDelegate {
 		
 		set {
 			self.model.login = newValue
-			if newValue == nil
-				|| newValue?.isEmpty == true {
-				self.delegate?.showError(error: .emptyLogin)
-			}
 		}
 	}
 	
@@ -71,60 +82,60 @@ class MainViewModel: MainModelDelegate {
 	private(set) var shouldShowPanel: MainViewPanel = .none
 	private(set) var generatedPassword: String? {
 		didSet {
-			if self.generatedPassword != nil {
-				self.cleanBlock = BlockOperation(block: { [weak self] in
+			if self.generatedPassword != nil,
+				self.generatedPassword?.isEmpty == false {
+				let cleanGeneratedBlock = DispatchWorkItem(block: { [weak self] in
 					self?.generatedPassword = nil
 					self?.shouldShowPanel = .none
 					self?.shouldCleanMasterPassword = true
+					self?.delegate?.updateUI()
 				})
-				DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [weak self] in
-					if let block = self?.cleanBlock {
-						OperationQueue.main.addOperation(block)
-						self?.cleanBlock = nil
-					}
-				}
+				DispatchQueue.main.asyncAfter(deadline: .now() + 10, execute: cleanGeneratedBlock)
+				self.cleanGeneratedBlock = cleanGeneratedBlock
 			}
 		}
 	}
 	
-	func masterPasswordHasBeenSet(empty: Bool) {
-		guard empty == false else {
-			self.delegate?.showError(error: .emptyMasterPassword)
-			return
-		}
+	func masterPasswordHasBeenSet() {
 		self.shouldCleanMasterPassword = false
-		self.cleanBlock = BlockOperation(block: { [weak self] in
-			if self?.shouldShowPanel != .generatedPassword {
-				self?.shouldCleanMasterPassword = true
-				self?.delegate?.updateUI()
-			}
+		let cleanBlock = DispatchWorkItem(block: { [weak self] in
+			self?.shouldCleanMasterPassword = true
+			self?.delegate?.updateUI()
 		})
-		DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [weak self] in
-			if let block = self?.cleanBlock {
-				OperationQueue.main.addOperation(block)
-				self?.cleanBlock = nil
-			}
-		}
+		DispatchQueue.main.asyncAfter(deadline: .now() + 10, execute: cleanBlock)
+		self.cleanMasterOnlyBlock = cleanBlock
 	}
 	
 	func generatePassword(with masterPassword: String?) {
-		guard self.website != nil else {
+		guard self.website != nil,
+				self.website?.isEmpty == false else {
 			self.delegate?.showError(error: .emptyWebsite)
 			return
 		}
 		
-		guard self.login != nil else {
+		guard self.login != nil,
+				self.login?.isEmpty == false else {
 			self.delegate?.showError(error: .emptyLogin)
 			return
 		}
 		
-		guard let masterPassword = masterPassword else {
+		guard let masterPassword = masterPassword,
+				masterPassword.isEmpty == false else {
 			self.delegate?.showError(error: .emptyMasterPassword)
 			return
 		}
 		
-		self.cleanBlock = nil
+		self.shouldCleanMasterPassword = false
+		self.cleanMasterOnlyBlock?.cancel()
+		self.cleanMasterOnlyBlock = nil
+		self.cleanGeneratedBlock?.cancel()
+		self.cleanGeneratedBlock = nil
 		self.model.generatePassword(with: masterPassword)
+	}
+	
+	func userRequestsOptionsPanel() {
+		self.shouldShowPanel = .options
+		self.delegate?.updateUI()
 	}
 	
 	// MARK: - MainModelDelegate

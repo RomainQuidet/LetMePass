@@ -28,15 +28,12 @@ class MainTextField: UITextField {
 		switch type {
 		case .website:
 			leftImageView.image = #imageLiteral(resourceName: "world")
-			self.placeholder = "Website"
 			self.keyboardType = .URL
 		case .login:
 			leftImageView.image = #imageLiteral(resourceName: "login")
-			self.placeholder = "Login"
 			self.keyboardType = .emailAddress
 		case .masterPassword:
 			leftImageView.image = #imageLiteral(resourceName: "masterPassword")
-			self.placeholder = "Mot de passe fort"
 			self.keyboardType = .default
 			self.isSecureTextEntry = true
 		}

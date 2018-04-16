@@ -1,0 +1,19 @@
+/* 
+  Localizable.strings
+  LetMePass
+
+  Created by Romain Quidet on 16/04/2018.
+  Copyright © 2018 XDAppfactory. All rights reserved.
+*/
+
+"OK" = "OK";
+
+"Website" = "Site internet";
+"Login" = "Identifiant";
+"Master password" = "Mot de passe fort";
+
+"Warning!" = "Attention !";
+"Login field is empty" = "Le champ identifiant est vide";
+"Website field is empty" = "Le champ site internet est vide";
+"Master password field is empty" = "Le champ mot de passe fort est vide";
+"LessPass cryptography not supported on your device" = "La crytographie LessPass n'est pas supportée par votre appareil";

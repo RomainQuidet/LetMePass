@@ -8,8 +8,8 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate {
-
+class ViewController: UIViewController, UITextFieldDelegate, MainViewModelDelegate {
+	
 	private let siteTextField = MainTextField(type: .website)
 	private let loginTextField = MainTextField(type: .login)
 	private let masterPasswordTextField = MainTextField(type: .masterPassword)
@@ -26,6 +26,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		super.viewDidLoad()
 		self.createUI()
 		self.createConstraints()
+		self.viewModel.delegate = self
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -37,12 +38,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	
 	@objc
 	func didTapGenerateButton() {
-		
+		self.view.endEditing(false)
+		self.viewModel.generatePassword(with: self.masterPasswordTextField.text)
 	}
 	
 	@objc
 	func didTapProfileSettingsButton() {
-		
+		self.viewModel.userRequestsOptionsPanel()
 	}
 	
 	// MARK: - UITextFieldDelegate
@@ -56,7 +58,15 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	}
 	
 	func textFieldDidEndEditing(_ textField: UITextField) {
-		debugPrint("did end editing")
+		if textField == siteTextField {
+			self.viewModel.website = textField.text
+		}
+		else if textField == loginTextField {
+			self.viewModel.login = textField.text
+		}
+		else if textField == masterPasswordTextField {
+			self.viewModel.masterPasswordHasBeenSet()
+		}
 	}
 	
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -81,18 +91,52 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		textField.resignFirstResponder()
 		return true
 	}
-
+	
+	// MARK: - MainViewModelDelegate
+	
+	func updateUI() {
+		self.siteTextField.text = self.viewModel.website
+		self.loginTextField.text = self.viewModel.login
+		if self.viewModel.shouldCleanMasterPassword {
+			self.masterPasswordTextField.text = nil
+		}
+	}
+	
+	func showError(error: MainViewModelError) {
+		debugPrint("got error \(error)")
+		let alertActionOk = UIAlertAction(title: "OK".localized(), style: .default)
+		let message: String
+		switch error {
+		case .emptyLogin:
+			message = "Login field is empty".localized()
+		case .emptyWebsite:
+			message = "Website field is empty".localized()
+		case .emptyMasterPassword:
+			message = "Master password field is empty".localized()
+		case .unsupportedPlatform:
+			message = "LessPass cryptography not supported on your device".localized()
+		}
+		let alert = UIAlertController(title: "Warning!".localized(), message: message, preferredStyle: .alert)
+		alert.addAction(alertActionOk)
+		self.present(alert, animated: true, completion: nil)
+	}
+	
 	// MARK: - Private
 	
 	private func createUI() {
 		self.title = "LetMePass"
 		
+		siteTextField.placeholder = self.viewModel.websitePlaceHolder
 		siteTextField.delegate = self
 		siteTextField.translatesAutoresizingMaskIntoConstraints = false
 		self.view.addSubview(siteTextField)
+		
+		loginTextField.placeholder = self.viewModel.loginPlaceHolder
 		loginTextField.delegate = self
 		loginTextField.translatesAutoresizingMaskIntoConstraints = false
 		self.view.addSubview(loginTextField)
+		
+		masterPasswordTextField.placeholder = self.viewModel.masterPasswordPlaceHolder
 		masterPasswordTextField.delegate = self
 		masterPasswordTextField.translatesAutoresizingMaskIntoConstraints = false
 		self.view.addSubview(masterPasswordTextField)
