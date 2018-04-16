@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7A00F82020852A4400B9B4BA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7A00F82220852A4400B9B4BA /* Localizable.strings */; };
+		7A00F825208537DB00B9B4BA /* GeneratedPasswordPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A00F824208537DB00B9B4BA /* GeneratedPasswordPanelView.swift */; };
 		7A48A8DD2083BBBA0028EF24 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A48A8DC2083BBBA0028EF24 /* MainViewModel.swift */; };
 		7A48A8DF2083BF240028EF24 /* MainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A48A8DE2083BF240028EF24 /* MainModel.swift */; };
 		7A48A8E2208528650028EF24 /* String+LMP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A48A8E1208528650028EF24 /* String+LMP.swift */; };
@@ -49,6 +50,7 @@
 /* Begin PBXFileReference section */
 		7A00F82120852A4400B9B4BA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7A00F82320852A4700B9B4BA /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		7A00F824208537DB00B9B4BA /* GeneratedPasswordPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratedPasswordPanelView.swift; sourceTree = "<group>"; };
 		7A48A8DC2083BBBA0028EF24 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		7A48A8DE2083BF240028EF24 /* MainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainModel.swift; sourceTree = "<group>"; };
 		7A48A8E1208528650028EF24 /* String+LMP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+LMP.swift"; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 				7A48A8DC2083BBBA0028EF24 /* MainViewModel.swift */,
 				7A48A8DE2083BF240028EF24 /* MainModel.swift */,
 				7A8E19E72044B7D700DC58D0 /* MainTextField.swift */,
+				7A00F824208537DB00B9B4BA /* GeneratedPasswordPanelView.swift */,
 				7A7073192044A62300067118 /* Main.storyboard */,
 				7A70731C2044A62300067118 /* Assets.xcassets */,
 				7A70731E2044A62300067118 /* LaunchScreen.storyboard */,
@@ -269,6 +272,7 @@
 				7A7073162044A62300067118 /* AppDelegate.swift in Sources */,
 				7A48A8DF2083BF240028EF24 /* MainModel.swift in Sources */,
 				7A48A8DD2083BBBA0028EF24 /* MainViewModel.swift in Sources */,
+				7A00F825208537DB00B9B4BA /* GeneratedPasswordPanelView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

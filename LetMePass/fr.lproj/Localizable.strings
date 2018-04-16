@@ -11,6 +11,7 @@
 "Website" = "Site internet";
 "Login" = "Identifiant";
 "Master password" = "Mot de passe fort";
+"Generate" = "Générer";
 
 "Warning!" = "Attention !";
 "Login field is empty" = "Le champ identifiant est vide";

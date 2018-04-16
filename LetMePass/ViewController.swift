@@ -17,8 +17,10 @@ class ViewController: UIViewController, UITextFieldDelegate, MainViewModelDelega
 	private let textFieldsHeight: CGFloat = 40
 	private let textFieldsVerticalMargin: CGFloat = 14
 	
-	let generateButton = UIButton(type: .custom)
-	let profileSettingsButton = UIButton(type: .custom)
+	private let generateButton = UIButton(type: .custom)
+	private let profileSettingsButton = UIButton(type: .custom)
+	
+	private let generatedPasswordPanel = GeneratedPasswordPanelView()
 	
 	private let viewModel = MainViewModel()
 
@@ -27,6 +29,11 @@ class ViewController: UIViewController, UITextFieldDelegate, MainViewModelDelega
 		self.createUI()
 		self.createConstraints()
 		self.viewModel.delegate = self
+	}
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		self.updateUI()
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -100,6 +107,21 @@ class ViewController: UIViewController, UITextFieldDelegate, MainViewModelDelega
 		if self.viewModel.shouldCleanMasterPassword {
 			self.masterPasswordTextField.text = nil
 		}
+		
+		switch self.viewModel.shouldShowPanel {
+		case .none:
+			generateButton.isEnabled = true
+			hideProfileOptionsPanel()
+			hidePasswordPanel()
+		case .generatedPassword:
+			generateButton.isEnabled = false
+			hideProfileOptionsPanel()
+			showPasswordPanel()
+		case .options:
+			generateButton.isEnabled = true
+			hidePasswordPanel()
+			showProfileOptionsPanel()
+		}
 	}
 	
 	func showError(error: MainViewModelError) {
@@ -142,7 +164,7 @@ class ViewController: UIViewController, UITextFieldDelegate, MainViewModelDelega
 		self.view.addSubview(masterPasswordTextField)
 		
 		generateButton.translatesAutoresizingMaskIntoConstraints = false
-		generateButton.setTitle("Générer", for: .normal)
+		generateButton.setTitle("Generate".localized(), for: .normal)
 		generateButton.setTitleColor(.white, for: .normal)
 		generateButton.backgroundColor = .blue
 		generateButton.addTarget(self, action: #selector(didTapGenerateButton), for: .touchUpInside)
@@ -153,6 +175,9 @@ class ViewController: UIViewController, UITextFieldDelegate, MainViewModelDelega
 		profileSettingsButton.backgroundColor = .lightGray
 		profileSettingsButton.addTarget(self, action: #selector(didTapProfileSettingsButton), for: .touchUpInside)
 		self.view.addSubview(profileSettingsButton)
+		
+		generatedPasswordPanel.translatesAutoresizingMaskIntoConstraints = false
+		self.view.addSubview(generatedPasswordPanel)
 	}
 
 	private func createConstraints() {
@@ -185,5 +210,28 @@ class ViewController: UIViewController, UITextFieldDelegate, MainViewModelDelega
 		profileSettingsButton.widthAnchor.constraint(equalTo: generateButton.heightAnchor, multiplier: 1.0).isActive = true
 		profileSettingsButton.rightAnchor.constraint(equalTo: siteTextField.rightAnchor).isActive = true
 		profileSettingsButton.topAnchor.constraint(equalTo: generateButton.topAnchor).isActive = true
+		
+		generatedPasswordPanel.topAnchor.constraint(equalTo: generateButton.bottomAnchor, constant: textFieldsVerticalMargin).isActive = true
+		generatedPasswordPanel.leftAnchor.constraint(equalTo: generateButton.leftAnchor).isActive = true
+		generatedPasswordPanel.heightAnchor.constraint(equalTo: generateButton.heightAnchor).isActive = true
+		generatedPasswordPanel.rightAnchor.constraint(equalTo: profileSettingsButton.rightAnchor).isActive = true
+	}
+	
+	private func showPasswordPanel() {
+		generatedPasswordPanel.passwordTextField.text = self.viewModel.generatedPassword
+		generatedPasswordPanel.isHidden = false
+	}
+	
+	private func hidePasswordPanel() {
+		generatedPasswordPanel.passwordTextField.text = nil
+		generatedPasswordPanel.isHidden = true
+	}
+	
+	private func showProfileOptionsPanel() {
+		debugPrint("show options panel")
+	}
+	
+	private func hideProfileOptionsPanel() {
+		debugPrint("hide options panel")
 	}
 }
