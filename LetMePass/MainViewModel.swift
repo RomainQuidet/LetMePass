@@ -79,6 +79,66 @@ class MainViewModel: MainModelDelegate {
 		}
 	}
 	
+	var passwordLength: UInt {
+		get {
+			return self.model.options.length
+		}
+		
+		set {
+			self.model.options.length = newValue
+		}
+	}
+	
+	var passwordCounter: UInt {
+		get {
+			return self.model.options.counter
+		}
+		
+		set {
+			self.model.options.counter = newValue
+		}
+	}
+	
+	var lowerCasePasswordOption: Bool {
+		get {
+			return self.model.options.lowercase
+		}
+		
+		set {
+			self.model.options.lowercase = newValue
+		}
+	}
+	
+	var upperCasePasswordOption: Bool {
+		get {
+			return self.model.options.uppercase
+		}
+		
+		set {
+			self.model.options.uppercase = newValue
+		}
+	}
+	
+	var digitsPasswordOption: Bool {
+		get {
+			return self.model.options.digits
+		}
+		
+		set {
+			self.model.options.digits = newValue
+		}
+	}
+	
+	var symbolsPasswordOption: Bool {
+		get {
+			return self.model.options.symbols
+		}
+		
+		set {
+			self.model.options.symbols = newValue
+		}
+	}
+	
 	private(set) var shouldCleanMasterPassword: Bool = true
 	private(set) var panelsToShow: MainOptionalPanels = []
 	private(set) var generatedPassword: String? {

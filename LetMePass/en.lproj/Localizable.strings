@@ -20,3 +20,5 @@
 "LessPass cryptography not supported on your device" = "LessPass cryptography not supported on your device";
 
 "Advanced options" = "Advanced options";
+"Length" = "Length";
+"Counter" = "Counter";

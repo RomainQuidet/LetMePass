@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate, MainViewModelDelegate {
+class ViewController: UIViewController, UITextFieldDelegate, MainViewModelDelegate, IntegerSelectorViewDelegate {
 	
 	private let siteTextField = MainTextField(type: .website)
 	private let loginTextField = MainTextField(type: .login)
@@ -102,6 +102,35 @@ class ViewController: UIViewController, UITextFieldDelegate, MainViewModelDelega
 		return true
 	}
 	
+	// MARK: - Password options panel
+	
+	@objc
+	func didTapPasswordOptionsButton(button: UIButton) {
+		button.isSelected = !button.isSelected
+		
+		if button == self.advancedPasswordOptionsPanel.lowercaseAlphabetButton {
+			self.viewModel.lowerCasePasswordOption = button.isSelected
+		}
+		else if button == self.advancedPasswordOptionsPanel.uppercaseAlphabetButton {
+			self.viewModel.upperCasePasswordOption = button.isSelected
+		}
+		else if button == self.advancedPasswordOptionsPanel.digitsButton {
+			self.viewModel.digitsPasswordOption = button.isSelected
+		}
+		else if button == self.advancedPasswordOptionsPanel.symbolsButton {
+			self.viewModel.symbolsPasswordOption = button.isSelected
+		}
+	}
+	
+	func integerSelectorViewIntegerDidUpdate(_ view: IntegerSelectorView) {
+		if view == self.advancedPasswordOptionsPanel.lengthControl {
+			self.viewModel.passwordLength = view.integer
+		}
+		else if view == self.advancedPasswordOptionsPanel.indexControl {
+			self.viewModel.passwordCounter = view.integer
+		}
+	}
+	
 	// MARK: - MainViewModelDelegate
 	
 	func updateUI() {
@@ -110,6 +139,14 @@ class ViewController: UIViewController, UITextFieldDelegate, MainViewModelDelega
 		if self.viewModel.shouldCleanMasterPassword {
 			self.masterPasswordTextField.text = nil
 		}
+		
+		self.advancedPasswordOptionsPanel.lowercaseAlphabetButton.isSelected = self.viewModel.lowerCasePasswordOption
+		self.advancedPasswordOptionsPanel.uppercaseAlphabetButton.isSelected = self.viewModel.upperCasePasswordOption
+		self.advancedPasswordOptionsPanel.digitsButton.isSelected = self.viewModel.digitsPasswordOption
+		self.advancedPasswordOptionsPanel.symbolsButton.isSelected = self.viewModel.symbolsPasswordOption
+		
+		self.advancedPasswordOptionsPanel.lengthControl.integer = self.viewModel.passwordLength
+		self.advancedPasswordOptionsPanel.indexControl.integer = self.viewModel.passwordCounter
 		
 		if self.viewModel.panelsToShow.isEmpty {
 			generateButton.isEnabled = true
@@ -190,6 +227,12 @@ class ViewController: UIViewController, UITextFieldDelegate, MainViewModelDelega
 		self.view.addSubview(generatedPasswordPanel)
 		
 		advancedPasswordOptionsPanel.translatesAutoresizingMaskIntoConstraints = false
+		advancedPasswordOptionsPanel.lowercaseAlphabetButton.addTarget(self, action: #selector(didTapPasswordOptionsButton(button:)), for: .touchUpInside)
+		advancedPasswordOptionsPanel.uppercaseAlphabetButton.addTarget(self, action: #selector(didTapPasswordOptionsButton(button:)), for: .touchUpInside)
+		advancedPasswordOptionsPanel.digitsButton.addTarget(self, action: #selector(didTapPasswordOptionsButton(button:)), for: .touchUpInside)
+		advancedPasswordOptionsPanel.symbolsButton.addTarget(self, action: #selector(didTapPasswordOptionsButton(button:)), for: .touchUpInside)
+		advancedPasswordOptionsPanel.lengthControl.delegate = self
+		advancedPasswordOptionsPanel.indexControl.delegate = self
 		self.view.addSubview(advancedPasswordOptionsPanel)
 	}
 
