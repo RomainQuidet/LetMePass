@@ -26,6 +26,8 @@
 		7A892E5520977B71004D9A5E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A892E5420977B71004D9A5E /* StoreKit.framework */; };
 		7A892E5920977FF6004D9A5E /* AppConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A892E5820977FF6004D9A5E /* AppConfigurationViewController.swift */; };
 		7A892E5B20978E74004D9A5E /* UserAccountLoginOrCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A892E5A20978E74004D9A5E /* UserAccountLoginOrCreateViewController.swift */; };
+		7A892E5D20979304004D9A5E /* UserAccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A892E5C20979304004D9A5E /* UserAccountManager.swift */; };
+		7A892E5F2097955A004D9A5E /* UserAccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A892E5E2097955A004D9A5E /* UserAccountService.swift */; };
 		7A8E19E82044B7D700DC58D0 /* MainTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8E19E72044B7D700DC58D0 /* MainTextField.swift */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +81,8 @@
 		7A892E5420977B71004D9A5E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		7A892E5820977FF6004D9A5E /* AppConfigurationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigurationViewController.swift; sourceTree = "<group>"; };
 		7A892E5A20978E74004D9A5E /* UserAccountLoginOrCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAccountLoginOrCreateViewController.swift; sourceTree = "<group>"; };
+		7A892E5C20979304004D9A5E /* UserAccountManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAccountManager.swift; sourceTree = "<group>"; };
+		7A892E5E2097955A004D9A5E /* UserAccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAccountService.swift; sourceTree = "<group>"; };
 		7A8E19E72044B7D700DC58D0 /* MainTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -191,6 +195,8 @@
 			isa = PBXGroup;
 			children = (
 				7A892E5A20978E74004D9A5E /* UserAccountLoginOrCreateViewController.swift */,
+				7A892E5C20979304004D9A5E /* UserAccountManager.swift */,
+				7A892E5E2097955A004D9A5E /* UserAccountService.swift */,
 			);
 			path = UserAccount;
 			sourceTree = "<group>";
@@ -314,7 +320,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A892E5F2097955A004D9A5E /* UserAccountService.swift in Sources */,
 				7A892E5B20978E74004D9A5E /* UserAccountLoginOrCreateViewController.swift in Sources */,
+				7A892E5D20979304004D9A5E /* UserAccountManager.swift in Sources */,
 				7A892E50209749AF004D9A5E /* IntegerSelectorView.swift in Sources */,
 				7A48A8E2208528650028EF24 /* String+LMP.swift in Sources */,
 				7A892E4E20972AB6004D9A5E /* AdvancedPasswordOptionsPanelView.swift in Sources */,
