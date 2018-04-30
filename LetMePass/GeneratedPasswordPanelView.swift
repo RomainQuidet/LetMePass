@@ -11,9 +11,9 @@ import QuartzCore
 
 class GeneratedPasswordPanelView: UIView {
 
-	let copyButton = UIButton(type: .custom)
 	let passwordTextField = UITextField()
-	
+
+	private let copyButton = UIButton(type: .custom)
 	private let showButon = UIButton(type: .custom)
 	
 	// MARK: Lifecycle
@@ -27,6 +27,7 @@ class GeneratedPasswordPanelView: UIView {
 		copyButton.translatesAutoresizingMaskIntoConstraints = false
 		copyButton.setImage(#imageLiteral(resourceName: "copy"), for: .normal)
 		copyButton.backgroundColor = .blue
+		copyButton.addTarget(self, action: #selector(didTapCopyButton), for: .touchUpInside)
 		addSubview(self.copyButton)
 		copyButton.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
 		copyButton.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
@@ -65,5 +66,21 @@ class GeneratedPasswordPanelView: UIView {
 			self?.passwordTextField.isSecureTextEntry = true
 		}
 	}
+	
+	@objc
+	func didTapCopyButton() {
+		guard let password = self.passwordTextField.text else {
+			return
+		}
+		let pasteBoard = UIPasteboard.general
+		if #available(iOS 10.0, *) {
+			let expireDate = Date().addingTimeInterval(15)
+			pasteBoard.setItems([["public.utf8-plain-text": password]], options: [UIPasteboardOption.expirationDate: expireDate, UIPasteboardOption.localOnly: true])
+		}
+		else {
+			pasteBoard.string = password
+		}
+	}
+	
 	
 }
