@@ -37,6 +37,11 @@ class MainViewModel: MainModelDelegate {
 	
 	init() {
 		self.model.delegate = self
+		NotificationCenter.default.addObserver(self, selector: #selector(willResignActive), name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
+	}
+	
+	deinit {
+		NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
 	}
 	
 	// MARK: - Public
@@ -202,6 +207,22 @@ class MainViewModel: MainModelDelegate {
 			self.panelsToShow.insert(.passwordOptions)
 		}
 		
+		self.delegate?.updateUI()
+	}
+	
+	// MARK : - App state management
+	
+	@objc
+	func willResignActive() {
+		self.generatedPassword = nil
+		self.panelsToShow = []
+		self.shouldCleanMasterPassword = true
+		self.website = nil
+		self.login = nil
+		self.cleanMasterOnlyBlock?.cancel()
+		self.cleanMasterOnlyBlock = nil
+		self.cleanGeneratedBlock?.cancel()
+		self.cleanGeneratedBlock = nil
 		self.delegate?.updateUI()
 	}
 	

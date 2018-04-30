@@ -54,6 +54,7 @@ class ViewController: UIViewController, UITextFieldDelegate, MainViewModelDelega
 	
 	@objc
 	func didTapProfileSettingsButton() {
+		self.view.endEditing(false)
 		self.viewModel.userTappedOptionsPanel()
 	}
 	
