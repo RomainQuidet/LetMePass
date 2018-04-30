@@ -21,6 +21,9 @@ class ViewController: UIViewController, UITextFieldDelegate, MainViewModelDelega
 	private let profileSettingsButton = UIButton(type: .custom)
 	
 	private let generatedPasswordPanel = GeneratedPasswordPanelView()
+	private var generatedPasswordPaneHeightConstraint: NSLayoutConstraint!
+	private let generatedPasswordPanelHeight: CGFloat = 50
+	private let advancedPasswordOptionsPanel = AdvancedPasswordOptionsPanelView()
 	
 	private let viewModel = MainViewModel()
 
@@ -51,7 +54,7 @@ class ViewController: UIViewController, UITextFieldDelegate, MainViewModelDelega
 	
 	@objc
 	func didTapProfileSettingsButton() {
-		self.viewModel.userRequestsOptionsPanel()
+		self.viewModel.userTappedOptionsPanel()
 	}
 	
 	// MARK: - UITextFieldDelegate
@@ -108,19 +111,26 @@ class ViewController: UIViewController, UITextFieldDelegate, MainViewModelDelega
 			self.masterPasswordTextField.text = nil
 		}
 		
-		switch self.viewModel.shouldShowPanel {
-		case .none:
+		if self.viewModel.panelsToShow.isEmpty {
 			generateButton.isEnabled = true
 			hideProfileOptionsPanel()
 			hidePasswordPanel()
-		case .generatedPassword:
-			generateButton.isEnabled = false
-			hideProfileOptionsPanel()
-			showPasswordPanel()
-		case .options:
-			generateButton.isEnabled = true
-			hidePasswordPanel()
-			showProfileOptionsPanel()
+		}
+		else {
+			if self.viewModel.panelsToShow.contains(.generatedPassword) {
+				generateButton.isEnabled = false
+				showPasswordPanel()
+			}
+			else {
+				generateButton.isEnabled = true
+				hidePasswordPanel()
+			}
+			if self.viewModel.panelsToShow.contains(.passwordOptions) {
+				showProfileOptionsPanel()
+			}
+			else {
+				hideProfileOptionsPanel()
+			}
 		}
 	}
 	
@@ -178,6 +188,9 @@ class ViewController: UIViewController, UITextFieldDelegate, MainViewModelDelega
 		
 		generatedPasswordPanel.translatesAutoresizingMaskIntoConstraints = false
 		self.view.addSubview(generatedPasswordPanel)
+		
+		advancedPasswordOptionsPanel.translatesAutoresizingMaskIntoConstraints = false
+		self.view.addSubview(advancedPasswordOptionsPanel)
 	}
 
 	private func createConstraints() {
@@ -213,25 +226,40 @@ class ViewController: UIViewController, UITextFieldDelegate, MainViewModelDelega
 		
 		generatedPasswordPanel.topAnchor.constraint(equalTo: generateButton.bottomAnchor, constant: textFieldsVerticalMargin).isActive = true
 		generatedPasswordPanel.leftAnchor.constraint(equalTo: generateButton.leftAnchor).isActive = true
-		generatedPasswordPanel.heightAnchor.constraint(equalTo: generateButton.heightAnchor).isActive = true
+		generatedPasswordPaneHeightConstraint = generatedPasswordPanel.heightAnchor.constraint(equalToConstant: generatedPasswordPanelHeight)
+		generatedPasswordPaneHeightConstraint.isActive = true
 		generatedPasswordPanel.rightAnchor.constraint(equalTo: profileSettingsButton.rightAnchor).isActive = true
+		
+		advancedPasswordOptionsPanel.topAnchor.constraint(equalTo: generatedPasswordPanel.bottomAnchor, constant: textFieldsVerticalMargin).isActive = true
+		advancedPasswordOptionsPanel.leftAnchor.constraint(equalTo: generateButton.leftAnchor).isActive = true
+		advancedPasswordOptionsPanel.rightAnchor.constraint(equalTo: profileSettingsButton.rightAnchor).isActive = true
 	}
 	
 	private func showPasswordPanel() {
 		generatedPasswordPanel.passwordTextField.text = self.viewModel.generatedPassword
-		generatedPasswordPanel.isHidden = false
+		self.view.layoutIfNeeded()
+		self.generatedPasswordPaneHeightConstraint.constant = self.generatedPasswordPanelHeight
+		UIView.animate(withDuration: 0.2) {
+			self.generatedPasswordPanel.isHidden = false
+			self.view.layoutIfNeeded()
+		}
 	}
 	
 	private func hidePasswordPanel() {
 		generatedPasswordPanel.passwordTextField.text = nil
-		generatedPasswordPanel.isHidden = true
+		self.view.layoutIfNeeded()
+		self.generatedPasswordPaneHeightConstraint.constant = 0
+		UIView.animate(withDuration: 0.2) {
+			self.generatedPasswordPanel.isHidden = true
+			self.view.layoutIfNeeded()
+		}
 	}
 	
 	private func showProfileOptionsPanel() {
-		debugPrint("show options panel")
+		advancedPasswordOptionsPanel.isHidden = false
 	}
 	
 	private func hideProfileOptionsPanel() {
-		debugPrint("hide options panel")
+		advancedPasswordOptionsPanel.isHidden = true
 	}
 }

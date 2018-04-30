@@ -20,6 +20,7 @@
 		7A70732B2044A62300067118 /* LetMePassUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A70732A2044A62300067118 /* LetMePassUITests.swift */; };
 		7A7073362044AB0600067118 /* LessPassCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A7073352044AB0600067118 /* LessPassCore.framework */; };
 		7A7073372044AB0600067118 /* LessPassCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7A7073352044AB0600067118 /* LessPassCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7A892E4E20972AB6004D9A5E /* AdvancedPasswordOptionsPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A892E4D20972AB6004D9A5E /* AdvancedPasswordOptionsPanelView.swift */; };
 		7A8E19E82044B7D700DC58D0 /* MainTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8E19E72044B7D700DC58D0 /* MainTextField.swift */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +68,7 @@
 		7A70732A2044A62300067118 /* LetMePassUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetMePassUITests.swift; sourceTree = "<group>"; };
 		7A70732C2044A62300067118 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7A7073352044AB0600067118 /* LessPassCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LessPassCore.framework; path = ../../Carthage/Build/iOS/LessPassCore.framework; sourceTree = "<group>"; };
+		7A892E4D20972AB6004D9A5E /* AdvancedPasswordOptionsPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedPasswordOptionsPanelView.swift; sourceTree = "<group>"; };
 		7A8E19E72044B7D700DC58D0 /* MainTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -134,6 +136,7 @@
 				7A48A8DE2083BF240028EF24 /* MainModel.swift */,
 				7A8E19E72044B7D700DC58D0 /* MainTextField.swift */,
 				7A00F824208537DB00B9B4BA /* GeneratedPasswordPanelView.swift */,
+				7A892E4D20972AB6004D9A5E /* AdvancedPasswordOptionsPanelView.swift */,
 				7A7073192044A62300067118 /* Main.storyboard */,
 				7A70731C2044A62300067118 /* Assets.xcassets */,
 				7A70731E2044A62300067118 /* LaunchScreen.storyboard */,
@@ -267,6 +270,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A48A8E2208528650028EF24 /* String+LMP.swift in Sources */,
+				7A892E4E20972AB6004D9A5E /* AdvancedPasswordOptionsPanelView.swift in Sources */,
 				7A8E19E82044B7D700DC58D0 /* MainTextField.swift in Sources */,
 				7A7073182044A62300067118 /* ViewController.swift in Sources */,
 				7A7073162044A62300067118 /* AppDelegate.swift in Sources */,

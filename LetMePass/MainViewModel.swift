@@ -19,10 +19,11 @@ protocol MainViewModelDelegate: class {
 	func showError(error: MainViewModelError)
 }
 
-enum MainViewPanel {
-	case none
-	case options
-	case generatedPassword
+struct MainOptionalPanels: OptionSet {
+	let rawValue: Int
+	
+	static let passwordOptions = MainOptionalPanels(rawValue: 1 << 0)
+	static let generatedPassword = MainOptionalPanels(rawValue: 1 << 1)
 }
 
 class MainViewModel: MainModelDelegate {
@@ -79,14 +80,14 @@ class MainViewModel: MainModelDelegate {
 	}
 	
 	private(set) var shouldCleanMasterPassword: Bool = true
-	private(set) var shouldShowPanel: MainViewPanel = .none
+	private(set) var panelsToShow: MainOptionalPanels = []
 	private(set) var generatedPassword: String? {
 		didSet {
 			if self.generatedPassword != nil,
 				self.generatedPassword?.isEmpty == false {
 				let cleanGeneratedBlock = DispatchWorkItem(block: { [weak self] in
 					self?.generatedPassword = nil
-					self?.shouldShowPanel = .none
+					self?.panelsToShow.remove(.generatedPassword)
 					self?.shouldCleanMasterPassword = true
 					self?.delegate?.updateUI()
 				})
@@ -133,8 +134,14 @@ class MainViewModel: MainModelDelegate {
 		self.model.generatePassword(with: masterPassword)
 	}
 	
-	func userRequestsOptionsPanel() {
-		self.shouldShowPanel = .options
+	func userTappedOptionsPanel() {
+		if self.panelsToShow.contains(.passwordOptions) {
+			self.panelsToShow.remove(.passwordOptions)
+		}
+		else {
+			self.panelsToShow.insert(.passwordOptions)
+		}
+		
 		self.delegate?.updateUI()
 	}
 	
@@ -142,7 +149,7 @@ class MainViewModel: MainModelDelegate {
 	
 	func mainModelDidFailToGeneratePassword(error: MainModelError) {
 		shouldCleanMasterPassword = true
-		shouldShowPanel = .none
+		panelsToShow = []
 		self.delegate?.updateUI()
 		
 		switch error {
@@ -157,7 +164,7 @@ class MainViewModel: MainModelDelegate {
 	
 	func mainModelDidGeneratePassword(_ password: String) {
 		self.generatedPassword = password
-		shouldShowPanel = .generatedPassword
+		panelsToShow.insert(.generatedPassword)
 		self.delegate?.updateUI()
 	}
 }

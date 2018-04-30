@@ -18,3 +18,5 @@
 "Website field is empty" = "Le champ site internet est vide";
 "Master password field is empty" = "Le champ mot de passe fort est vide";
 "LessPass cryptography not supported on your device" = "La crytographie LessPass n'est pas supportée par votre appareil";
+
+"Advanced options" = "Options avancées";
