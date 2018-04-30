@@ -58,6 +58,14 @@ class ViewController: UIViewController, UITextFieldDelegate, MainViewModelDelega
 		self.viewModel.userTappedOptionsPanel()
 	}
 	
+	@objc
+	func didTapAppSettingsButton() {
+		let appConfigurationVC = AppConfigurationViewController()
+		let navVC = UINavigationController(rootViewController: appConfigurationVC)
+		navVC.modalTransitionStyle = .flipHorizontal
+		self.present(navVC, animated: true, completion: nil)
+	}
+	
 	// MARK: - UITextFieldDelegate
 	
 	func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
@@ -195,6 +203,9 @@ class ViewController: UIViewController, UITextFieldDelegate, MainViewModelDelega
 	
 	private func createUI() {
 		self.title = "LetMePass"
+		
+		let settingsButton = UIBarButtonItem(image: #imageLiteral(resourceName: "appSettings"), style: .plain, target: self, action: #selector(didTapAppSettingsButton))
+		self.navigationItem.rightBarButtonItem = settingsButton
 		
 		siteTextField.placeholder = self.viewModel.websitePlaceHolder
 		siteTextField.delegate = self

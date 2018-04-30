@@ -23,6 +23,9 @@
 		7A892E4E20972AB6004D9A5E /* AdvancedPasswordOptionsPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A892E4D20972AB6004D9A5E /* AdvancedPasswordOptionsPanelView.swift */; };
 		7A892E50209749AF004D9A5E /* IntegerSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A892E4F209749AF004D9A5E /* IntegerSelectorView.swift */; };
 		7A892E52209758EE004D9A5E /* BackgroundColorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A892E51209758EE004D9A5E /* BackgroundColorButton.swift */; };
+		7A892E5520977B71004D9A5E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A892E5420977B71004D9A5E /* StoreKit.framework */; };
+		7A892E5920977FF6004D9A5E /* AppConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A892E5820977FF6004D9A5E /* AppConfigurationViewController.swift */; };
+		7A892E5B20978E74004D9A5E /* UserAccountLoginOrCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A892E5A20978E74004D9A5E /* UserAccountLoginOrCreateViewController.swift */; };
 		7A8E19E82044B7D700DC58D0 /* MainTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8E19E72044B7D700DC58D0 /* MainTextField.swift */; };
 /* End PBXBuildFile section */
 
@@ -73,6 +76,9 @@
 		7A892E4D20972AB6004D9A5E /* AdvancedPasswordOptionsPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedPasswordOptionsPanelView.swift; sourceTree = "<group>"; };
 		7A892E4F209749AF004D9A5E /* IntegerSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegerSelectorView.swift; sourceTree = "<group>"; };
 		7A892E51209758EE004D9A5E /* BackgroundColorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundColorButton.swift; sourceTree = "<group>"; };
+		7A892E5420977B71004D9A5E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		7A892E5820977FF6004D9A5E /* AppConfigurationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigurationViewController.swift; sourceTree = "<group>"; };
+		7A892E5A20978E74004D9A5E /* UserAccountLoginOrCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAccountLoginOrCreateViewController.swift; sourceTree = "<group>"; };
 		7A8E19E72044B7D700DC58D0 /* MainTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -82,6 +88,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A7073362044AB0600067118 /* LessPassCore.framework in Frameworks */,
+				7A892E5520977B71004D9A5E /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,6 +124,7 @@
 				7A7073142044A62300067118 /* LetMePass */,
 				7A7073292044A62300067118 /* LetMePassUITests */,
 				7A7073132044A62300067118 /* Products */,
+				7A892E5320977B71004D9A5E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -132,6 +140,8 @@
 		7A7073142044A62300067118 /* LetMePass */ = {
 			isa = PBXGroup;
 			children = (
+				7A892E5720977FCF004D9A5E /* AppConfiguration */,
+				7A892E5620977DCD004D9A5E /* UserAccount */,
 				7A48A8E5208529920028EF24 /* Localize */,
 				7A48A8E0208528410028EF24 /* Extensions */,
 				7A7073152044A62300067118 /* AppDelegate.swift */,
@@ -167,6 +177,30 @@
 				7A7073352044AB0600067118 /* LessPassCore.framework */,
 			);
 			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		7A892E5320977B71004D9A5E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7A892E5420977B71004D9A5E /* StoreKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7A892E5620977DCD004D9A5E /* UserAccount */ = {
+			isa = PBXGroup;
+			children = (
+				7A892E5A20978E74004D9A5E /* UserAccountLoginOrCreateViewController.swift */,
+			);
+			path = UserAccount;
+			sourceTree = "<group>";
+		};
+		7A892E5720977FCF004D9A5E /* AppConfiguration */ = {
+			isa = PBXGroup;
+			children = (
+				7A892E5820977FF6004D9A5E /* AppConfigurationViewController.swift */,
+			);
+			path = AppConfiguration;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -221,6 +255,11 @@
 					7A7073112044A62300067118 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
+						};
 					};
 					7A7073252044A62300067118 = {
 						CreatedOnToolsVersion = 9.2;
@@ -275,10 +314,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A892E5B20978E74004D9A5E /* UserAccountLoginOrCreateViewController.swift in Sources */,
 				7A892E50209749AF004D9A5E /* IntegerSelectorView.swift in Sources */,
 				7A48A8E2208528650028EF24 /* String+LMP.swift in Sources */,
 				7A892E4E20972AB6004D9A5E /* AdvancedPasswordOptionsPanelView.swift in Sources */,
 				7A8E19E82044B7D700DC58D0 /* MainTextField.swift in Sources */,
+				7A892E5920977FF6004D9A5E /* AppConfigurationViewController.swift in Sources */,
 				7A7073182044A62300067118 /* ViewController.swift in Sources */,
 				7A7073162044A62300067118 /* AppDelegate.swift in Sources */,
 				7A48A8DF2083BF240028EF24 /* MainModel.swift in Sources */,
