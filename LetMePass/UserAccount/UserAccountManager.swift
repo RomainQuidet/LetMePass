@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 class UserAccountManager: UserAccountServiceDelegate {
 	
@@ -17,6 +18,7 @@ class UserAccountManager: UserAccountServiceDelegate {
 		case loggedOut
 	}
 	private(set) var status: LoginStatus
+	private(set) var profiles = [UserAccountProfile]()
 	
 	private var userAccountService = UserAccountService()
 	
@@ -37,17 +39,32 @@ class UserAccountManager: UserAccountServiceDelegate {
 		
 	}
 	
+	func fetchProfiles() {
+		self.userAccountService.readAllProfiles()
+	}
+	
 	//MARK: - UserAccountServiceDelegate
 	
 	func userAccountServiceDidFail(command: UserAccountService.ServiceCommands, error: NSError?) {
 		debugPrint("user account service failure")
 	}
 	
-	func userAccountServiceDidSucceed(command: UserAccountService.ServiceCommands, data: Any?) {
+	func userAccountServiceDidSucceed(command: UserAccountService.ServiceCommands, data: JSON?) {
 		switch command {
 		case .CommandLogin:
 			debugPrint("login ok !")
 			status = .loggedIn
+			self.fetchProfiles()
+		case .ReadAllProfiles:
+			self.profiles.removeAll()
+			if let array = data?.array {
+				for profileDic in array {
+					if let profile = UserAccountProfile(json: profileDic) {
+						self.profiles.append(profile)
+					}
+				}
+			}
+			debugPrint("read all profiles ok, found \(self.profiles.count) profiles")
 		default:
 			break
 		}

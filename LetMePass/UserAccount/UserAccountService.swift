@@ -12,7 +12,7 @@ import SwiftyJSON
 
 protocol UserAccountServiceDelegate: class {
 	func userAccountServiceDidFail(command: UserAccountService.ServiceCommands, error: NSError?)
-	func userAccountServiceDidSucceed(command: UserAccountService.ServiceCommands, data: Any?)
+	func userAccountServiceDidSucceed(command: UserAccountService.ServiceCommands, data: JSON?)
 }
 
 class UserAccountService {
@@ -67,41 +67,45 @@ class UserAccountService {
 	}
 	
 	func register(user: String, password: String) {
-		
+		debugPrint("register: todo")
 	}
 	
 	func resetPassword(email: String) {
-		
+		debugPrint("resetPassword: todo")
 	}
 	
 	func confirmResetPassword(password: String) {
-		
+		debugPrint("confirmResetPassword: todo")
 	}
 	
 	func refreshToken(token: String) {
-		
+		debugPrint("confirmResetPassword: todo")
 	}
 	
 	// MARK: - Profiles
 	
 	func create(profile: LPProfile) {
-		
+		debugPrint("create: todo")
 	}
 	
 	func read(profileId: String) {
-		
+		debugPrint("create: todo")
 	}
 	
 	func readAllProfiles() {
-		
+		guard let url = self.serviceURL(for: .ReadAllProfiles) else {
+			return
+		}
+		let request = self.serviceURLRequest(for: .ReadAllProfiles, with: url)
+		self.sendRequest(request, for: .ReadAllProfiles)
 	}
 	
 	func update(profile: LPProfile, from id: String) {
-		
+		debugPrint("update: todo")
 	}
 	
 	func delete(profileId: String) {
-		
+		debugPrint("delete: todo")
 	}
 
 	// MARK: - Private
@@ -136,11 +140,17 @@ class UserAccountService {
 	
 	private func serviceURLRequest(for serviceCommand: ServiceCommands, with url: URL) -> URLRequest {
 		var request = URLRequest(url: url)
+		request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+		request.addValue("application/json", forHTTPHeaderField: "Accept")
 		switch serviceCommand {
 		case .CommandLogin:
 			request.httpMethod = "POST"
-			request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-			request.addValue("application/json", forHTTPHeaderField: "Accept")
+		case .ReadAllProfiles:
+			request.httpMethod = "GET"
+			if let token = self.token {
+				request.setAuthorizationHeader(jwt: token)
+
+			}
 		default:
 			break
 		}
@@ -151,7 +161,7 @@ class UserAccountService {
 		debugPrint("sending request \(request)")
 		let task = self.urlSession.dataTask(with: request) { [weak self] (data, response, error) in
 			if let error = error as NSError? {
-				self?.delegate?.userAccountServiceDidFail(command: command, error: error)
+				self?.warnDelegateServiceFailed(command: command, error: error)
 				return
 			}
 			
@@ -163,21 +173,42 @@ class UserAccountService {
 	private func responseHandler(data: Data?, command: ServiceCommands) {
 		switch command {
 		case .CommandLogin:
-			guard let data = data else {
-				self.delegate?.userAccountServiceDidFail(command: command, error: nil)
-				return
+			guard let data = data,
+				let json = try? JSON(data: data),
+				let token = json["token"].string else {
+					self.warnDelegateServiceFailed(command: command, error: nil)
+					return
 			}
-			if let json = try? JSON(data: data),
-				let token = json["token"].string {
-				self.token = token
-				self.delegate?.userAccountServiceDidSucceed(command: .CommandLogin, data: nil)
+			self.token = token
+			self.warnDelegateServiceSucceeded(command: command, data: json)
+		case .ReadAllProfiles:
+			guard let data = data,
+					let json = try? JSON(data: data),
+					json["results"].exists() else {
+						self.warnDelegateServiceFailed(command: command, error: nil)
+						return
 			}
-			else
-			{
-				self.delegate?.userAccountServiceDidFail(command: .CommandLogin, error: nil)
-			}
+			self.warnDelegateServiceSucceeded(command: command, data: json["results"])
 		default:
 			break
 		}
+	}
+	
+	private func warnDelegateServiceFailed(command: UserAccountService.ServiceCommands, error: NSError?) {
+		DispatchQueue.main.async { [weak self] in
+			self?.delegate?.userAccountServiceDidFail(command: command, error: error)
+		}
+	}
+	
+	private func warnDelegateServiceSucceeded(command: UserAccountService.ServiceCommands, data: JSON?) {
+		DispatchQueue.main.async { [weak self] in
+			self?.delegate?.userAccountServiceDidSucceed(command: command, data: data)
+		}
+	}
+}
+
+fileprivate extension URLRequest {
+	mutating func setAuthorizationHeader(jwt: String) {
+		self.setValue("JWT \(jwt)", forHTTPHeaderField: "Authorization")
 	}
 }
