@@ -12,7 +12,7 @@ class UserAccountLoginOrCreateViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+		self.view.backgroundColor = UIColor.groupTableViewBackground
     }
 
     override func didReceiveMemoryWarning() {
@@ -20,5 +20,8 @@ class UserAccountLoginOrCreateViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
 
+	}
 }

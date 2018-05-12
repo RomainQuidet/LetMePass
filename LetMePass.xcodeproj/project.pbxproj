@@ -12,6 +12,8 @@
 		7A48A8DD2083BBBA0028EF24 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A48A8DC2083BBBA0028EF24 /* MainViewModel.swift */; };
 		7A48A8DF2083BF240028EF24 /* MainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A48A8DE2083BF240028EF24 /* MainModel.swift */; };
 		7A48A8E2208528650028EF24 /* String+LMP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A48A8E1208528650028EF24 /* String+LMP.swift */; };
+		7A553C3920A72AF300C74A77 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A553C3720A72AEB00C74A77 /* SwiftyJSON.framework */; };
+		7A553C3A20A72AF300C74A77 /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7A553C3720A72AEB00C74A77 /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7A7073162044A62300067118 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A7073152044A62300067118 /* AppDelegate.swift */; };
 		7A7073182044A62300067118 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A7073172044A62300067118 /* ViewController.swift */; };
 		7A70731B2044A62300067118 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A7073192044A62300067118 /* Main.storyboard */; };
@@ -48,6 +50,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				7A553C3A20A72AF300C74A77 /* SwiftyJSON.framework in Embed Frameworks */,
 				7A7073372044AB0600067118 /* LessPassCore.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -64,6 +67,7 @@
 		7A48A8E1208528650028EF24 /* String+LMP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+LMP.swift"; sourceTree = "<group>"; };
 		7A48A8E3208529440028EF24 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
 		7A48A8E4208529450028EF24 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		7A553C3720A72AEB00C74A77 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
 		7A7073122044A62300067118 /* LetMePass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetMePass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A7073152044A62300067118 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7A7073172044A62300067118 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -91,6 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A553C3920A72AF300C74A77 /* SwiftyJSON.framework in Frameworks */,
 				7A7073362044AB0600067118 /* LessPassCore.framework in Frameworks */,
 				7A892E5520977B71004D9A5E /* StoreKit.framework in Frameworks */,
 			);
@@ -186,6 +191,7 @@
 		7A892E5320977B71004D9A5E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7A553C3720A72AEB00C74A77 /* SwiftyJSON.framework */,
 				7A892E5420977B71004D9A5E /* StoreKit.framework */,
 			);
 			name = Frameworks;

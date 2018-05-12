@@ -8,16 +8,23 @@
 
 import Foundation
 import LessPassCore
+import SwiftyJSON
+
+protocol UserAccountServiceDelegate: class {
+	func userAccountServiceDidFail(command: UserAccountService.ServiceCommands, error: NSError?)
+	func userAccountServiceDidSucceed(command: UserAccountService.ServiceCommands, data: Any?)
+}
 
 class UserAccountService {
 	
-	let defaultLessPassHost = "https://lesspass.com"
+	weak var delegate: UserAccountServiceDelegate?
 	
+	private static let defaultLessPassHost = "https://lesspass.com"
 	private var token: String?
 	private let host: String
 	private let urlSession: URLSession
 	
-	private enum ServiceCommands: Int {
+	enum ServiceCommands: Int {
 		case CommandLogin = 0
 		case CommandRegister
 		case CommandResetPassword
@@ -32,8 +39,8 @@ class UserAccountService {
 	
 	// MARK: Lifecyle
 	
-	init(host: String) {
-		self.host = host
+	init(host: String? = nil) {
+		self.host = host ?? UserAccountService.defaultLessPassHost
 		let configuration = URLSessionConfiguration.default
 		if #available(iOS 11.0, *) {
 			configuration.waitsForConnectivity = false
@@ -53,8 +60,10 @@ class UserAccountService {
 			return
 		}
 		
-		let request = URLRequest(url: url)
-		
+		var request = self.serviceURLRequest(for: .CommandLogin, with: url)
+		let body = ["email": user, "password": password]
+		request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .prettyPrinted)
+		self.sendRequest(request, for: .CommandLogin)
 	}
 	
 	func register(user: String, password: String) {
@@ -100,7 +109,6 @@ class UserAccountService {
 	private func serviceURL(for serviceCommand: ServiceCommands) -> URL? {
 		var result = URL(string: self.host)
 		result?.appendPathComponent("api")
-		
 		switch serviceCommand {
 		case .CommandLogin:
 			result?.appendPathComponent("tokens")
@@ -122,17 +130,54 @@ class UserAccountService {
 			result = nil
 		}
 		
+		result?.appendPathComponent("")
 		return result
 	}
 	
+	private func serviceURLRequest(for serviceCommand: ServiceCommands, with url: URL) -> URLRequest {
+		var request = URLRequest(url: url)
+		switch serviceCommand {
+		case .CommandLogin:
+			request.httpMethod = "POST"
+			request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+			request.addValue("application/json", forHTTPHeaderField: "Accept")
+		default:
+			break
+		}
+		return request
+	}
+	
 	private func sendRequest(_ request: URLRequest, for command: ServiceCommands) {
-		let task = self.urlSession.dataTask(with: request) { (data, response, error) in
-			//
+		debugPrint("sending request \(request)")
+		let task = self.urlSession.dataTask(with: request) { [weak self] (data, response, error) in
+			if let error = error as NSError? {
+				self?.delegate?.userAccountServiceDidFail(command: command, error: error)
+				return
+			}
+			
+			self?.responseHandler(data: data, command: command)
 		}
 		task.resume()
 	}
 	
-	private func responseHandler(data: Data, command: ServiceCommands) {
-		
+	private func responseHandler(data: Data?, command: ServiceCommands) {
+		switch command {
+		case .CommandLogin:
+			guard let data = data else {
+				self.delegate?.userAccountServiceDidFail(command: command, error: nil)
+				return
+			}
+			if let json = try? JSON(data: data),
+				let token = json["token"].string {
+				self.token = token
+				self.delegate?.userAccountServiceDidSucceed(command: .CommandLogin, data: nil)
+			}
+			else
+			{
+				self.delegate?.userAccountServiceDidFail(command: .CommandLogin, error: nil)
+			}
+		default:
+			break
+		}
 	}
 }

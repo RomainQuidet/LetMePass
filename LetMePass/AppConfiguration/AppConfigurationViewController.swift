@@ -78,11 +78,7 @@ class AppConfigurationViewController: UIViewController, UITableViewDelegate, UIT
 			return UITableViewCell()
 		}
 		
-		var tmpcell = tableView.dequeueReusableCell(withIdentifier: configSectionCellIdentifier)
-		if tmpcell == nil {
-			tmpcell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: configSectionCellIdentifier)
-		}
-		let cell = tmpcell!
+		let cell = tableView.dequeueReusableCell(withIdentifier: configSectionCellIdentifier, for: indexPath)
 		
 		switch section {
 		case .sectionPurchase:
@@ -114,6 +110,7 @@ class AppConfigurationViewController: UIViewController, UITableViewDelegate, UIT
 		tableView.delegate = self
 		tableView.dataSource = self
 		self.view.addSubview(tableView)
+		tableView.register(UITableViewCell.self, forCellReuseIdentifier: configSectionCellIdentifier)
 	}
 	
 	private func showUserAccountViewController() {

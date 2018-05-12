@@ -1,1 +1,2 @@
 github "RomainQuidet/LessPassCore" ~> 1.0
+github "SwiftyJSON/SwiftyJSON" ~> 4.1
