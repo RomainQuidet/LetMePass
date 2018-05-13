@@ -28,3 +28,10 @@
 "Send feedbacks" = "Send feedbacks";
 "LetMePass feedback" = "LetMePass feedback";
 "Requires PRO version" = "Requires PRO version";
+
+"Password" = "Password";
+"Log in" = "Log in";
+"Register" = "Register";
+"Error" = "Error";
+"Please provide a password" = "Please provide a password";
+"Oups, login did fail. Please check your credentials" = "Oups, login did fail. Please check your credentials";

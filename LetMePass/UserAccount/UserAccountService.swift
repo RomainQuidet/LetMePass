@@ -19,7 +19,7 @@ class UserAccountService {
 	
 	weak var delegate: UserAccountServiceDelegate?
 	
-	private static let defaultLessPassHost = "https://lesspass.com"
+	static let defaultLessPassHost = "https://lesspass.com"
 	private var token: String?
 	private let host: String
 	private let urlSession: URLSession

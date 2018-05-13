@@ -13,6 +13,7 @@ class UserAccountManager: UserAccountServiceDelegate {
 	
 	static let shared = UserAccountManager()
 	
+	typealias UserAccountManagerCompletion = () -> Void
 	enum LoginStatus: Int {
 		case loggedIn = 0
 		case loggedOut
@@ -21,6 +22,10 @@ class UserAccountManager: UserAccountServiceDelegate {
 	private(set) var profiles = [UserAccountProfile]()
 	
 	private var userAccountService = UserAccountService()
+	private var completions = [completionsMethods: UserAccountManagerCompletion]()
+	private enum completionsMethods: Int {
+		case loginAndSync = 0, registerAndSync
+	}
 	
 	//MARK: - Lifecycle
 	
@@ -31,12 +36,13 @@ class UserAccountManager: UserAccountServiceDelegate {
 
 	// MARK: - Public
 	
-	func login(user: String, password: String) {
+	func loginAndSync(user: String, password: String, completion: @escaping UserAccountManagerCompletion) {
+		self.completions[.loginAndSync] = completion
 		self.userAccountService.login(user: user, password: password)
 	}
 	
-	func register(user: String, password: String) {
-		
+	func registerAndSync(user: String, password: String, completion: @escaping UserAccountManagerCompletion) {
+		self.completions[.registerAndSync] = completion
 	}
 	
 	func fetchProfiles() {
@@ -47,6 +53,15 @@ class UserAccountManager: UserAccountServiceDelegate {
 	
 	func userAccountServiceDidFail(command: UserAccountService.ServiceCommands, error: NSError?) {
 		debugPrint("user account service failure")
+		switch command {
+		case .CommandLogin:
+			if let completion = self.completions[.loginAndSync] {
+				self.completions.removeValue(forKey: .loginAndSync)
+				completion()
+			}
+		default:
+			break
+		}
 	}
 	
 	func userAccountServiceDidSucceed(command: UserAccountService.ServiceCommands, data: JSON?) {
@@ -65,6 +80,10 @@ class UserAccountManager: UserAccountServiceDelegate {
 				}
 			}
 			debugPrint("read all profiles ok, found \(self.profiles.count) profiles")
+			if let completion = self.completions[.loginAndSync] {
+				self.completions.removeValue(forKey: .loginAndSync)
+				completion()
+			}
 		default:
 			break
 		}

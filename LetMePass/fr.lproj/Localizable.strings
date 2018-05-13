@@ -28,3 +28,10 @@
 "Send feedbacks" = "Envoyer des commentaires";
 "LetMePass feedback" = "Commentaires sur LetMePass";
 "Requires PRO version" = "Nécessite la version PRO";
+
+"Password" = "Mot de passe";
+"Log in" = "Se connecter";
+"Register" = "S'enregistrer";
+"Error" = "Erreur";
+"Please provide a password" = "Veuillez fournir un mot de passe";
+"Oups, login did fail. Please check your credentials" = "Oups, la connection a échoué. Veuillez vérifier vos identifiants";

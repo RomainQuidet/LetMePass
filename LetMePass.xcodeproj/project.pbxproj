@@ -15,6 +15,8 @@
 		7A553C3920A72AF300C74A77 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A553C3720A72AEB00C74A77 /* SwiftyJSON.framework */; };
 		7A553C3A20A72AF300C74A77 /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7A553C3720A72AEB00C74A77 /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7A553C3C20A7433900C74A77 /* UserAccountProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A553C3B20A7433800C74A77 /* UserAccountProfile.swift */; };
+		7A553C3E20A884E900C74A77 /* UserAccountLoginOrCreateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A553C3D20A884E900C74A77 /* UserAccountLoginOrCreateViewModel.swift */; };
+		7A553C4020A88AC600C74A77 /* UserAccountLoginOrCreateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A553C3F20A88AC600C74A77 /* UserAccountLoginOrCreateModel.swift */; };
 		7A7073162044A62300067118 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A7073152044A62300067118 /* AppDelegate.swift */; };
 		7A7073182044A62300067118 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A7073172044A62300067118 /* ViewController.swift */; };
 		7A70731B2044A62300067118 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A7073192044A62300067118 /* Main.storyboard */; };
@@ -70,6 +72,8 @@
 		7A48A8E4208529450028EF24 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		7A553C3720A72AEB00C74A77 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
 		7A553C3B20A7433800C74A77 /* UserAccountProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAccountProfile.swift; sourceTree = "<group>"; };
+		7A553C3D20A884E900C74A77 /* UserAccountLoginOrCreateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAccountLoginOrCreateViewModel.swift; sourceTree = "<group>"; };
+		7A553C3F20A88AC600C74A77 /* UserAccountLoginOrCreateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAccountLoginOrCreateModel.swift; sourceTree = "<group>"; };
 		7A7073122044A62300067118 /* LetMePass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetMePass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A7073152044A62300067118 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7A7073172044A62300067118 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -202,6 +206,8 @@
 		7A892E5620977DCD004D9A5E /* UserAccount */ = {
 			isa = PBXGroup;
 			children = (
+				7A553C3F20A88AC600C74A77 /* UserAccountLoginOrCreateModel.swift */,
+				7A553C3D20A884E900C74A77 /* UserAccountLoginOrCreateViewModel.swift */,
 				7A892E5A20978E74004D9A5E /* UserAccountLoginOrCreateViewController.swift */,
 				7A892E5C20979304004D9A5E /* UserAccountManager.swift */,
 				7A892E5E2097955A004D9A5E /* UserAccountService.swift */,
@@ -330,6 +336,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A892E5F2097955A004D9A5E /* UserAccountService.swift in Sources */,
+				7A553C4020A88AC600C74A77 /* UserAccountLoginOrCreateModel.swift in Sources */,
 				7A892E5B20978E74004D9A5E /* UserAccountLoginOrCreateViewController.swift in Sources */,
 				7A892E5D20979304004D9A5E /* UserAccountManager.swift in Sources */,
 				7A892E50209749AF004D9A5E /* IntegerSelectorView.swift in Sources */,
@@ -337,6 +344,7 @@
 				7A553C3C20A7433900C74A77 /* UserAccountProfile.swift in Sources */,
 				7A892E4E20972AB6004D9A5E /* AdvancedPasswordOptionsPanelView.swift in Sources */,
 				7A8E19E82044B7D700DC58D0 /* MainTextField.swift in Sources */,
+				7A553C3E20A884E900C74A77 /* UserAccountLoginOrCreateViewModel.swift in Sources */,
 				7A892E5920977FF6004D9A5E /* AppConfigurationViewController.swift in Sources */,
 				7A7073182044A62300067118 /* ViewController.swift in Sources */,
 				7A7073162044A62300067118 /* AppDelegate.swift in Sources */,
